@@ -1,109 +1,332 @@
-<a href="https://demo-nextjs-with-supabase.vercel.app/">
-  <img alt="Next.js and Supabase Starter Kit - the fastest way to build apps with Next.js and Supabase" src="https://demo-nextjs-with-supabase.vercel.app/opengraph-image.png">
-  <h1 align="center">Next.js and Supabase Starter Kit</h1>
-</a>
+# Daily Execution OS
 
-<p align="center">
- The fastest way to build apps with Next.js and Supabase
-</p>
+A personal productivity system focused on **showing up daily and making progress**. Not a generic task manager—this is a Daily Execution OS designed to:
 
-<p align="center">
-  <a href="#features"><strong>Features</strong></a> ·
-  <a href="#demo"><strong>Demo</strong></a> ·
-  <a href="#deploy-to-vercel"><strong>Deploy to Vercel</strong></a> ·
-  <a href="#clone-and-run-locally"><strong>Clone and run locally</strong></a> ·
-  <a href="#feedback-and-issues"><strong>Feedback and issues</strong></a>
-  <a href="#more-supabase-examples"><strong>More Examples</strong></a>
-</p>
-<br/>
+- Reduce dread for large, messy tasks
+- Give closure each day, even when big tasks are unfinished
+- Keep you showing up consistently
+- Avoid feature-bloat and toxic productivity
 
-## Features
+## Core Concepts
 
-- Works across the entire [Next.js](https://nextjs.org) stack
-  - App Router
-  - Pages Router
-  - Proxy
-  - Client
-  - Server
-  - It just works!
-- supabase-ssr. A package to configure Supabase Auth to use cookies
-- Password-based authentication block installed via the [Supabase UI Library](https://supabase.com/ui/docs/nextjs/password-based-auth)
-- Styling with [Tailwind CSS](https://tailwindcss.com)
-- Components with [shadcn/ui](https://ui.shadcn.com/)
-- Optional deployment with [Supabase Vercel Integration and Vercel deploy](#deploy-your-own)
-  - Environment variables automatically assigned to Vercel project
+### 1. Work Units
+A **Work Unit** is one coherent problem-space you're working on. It could span days or weeks. Each Work Unit has:
+- Title
+- Outcome (what success looks like)
+- Done When (clear completion criteria)
+- Checklist items
+- Status (active, parked, completed, archived)
 
-## Demo
+### 2. Daily Three ("3 Nails")
+Your daily commitment—**just 3 things** you're driving forward today. These can be tied to your active Work Unit or standalone tasks.
 
-You can view a fully working demo at [demo-nextjs-with-supabase.vercel.app](https://demo-nextjs-with-supabase.vercel.app/).
+### 3. Daily Checkpoints
+End-of-day reflection that gives you **psychological closure** even when work is unfinished:
+- What did you complete?
+- Where did you stop? What's next?
+- Any blockers?
+- How are you feeling?
 
-## Deploy to Vercel
+### 4. Builder Streaks
+Two metrics that track **showing up**, not perfection:
+- **Presence Streak**: Days this month you engaged with a Work Unit
+- **Checkpoint Streak**: Days this month you submitted a checkpoint
 
-Vercel deployment will guide you through creating a Supabase account and project.
+Missing a day doesn't break your streak—it's a monthly count, not a consecutive chain.
 
-After installation of the Supabase integration, all relevant environment variables will be assigned to the project so the deployment is fully functioning.
+---
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-supabase&project-name=nextjs-with-supabase&repository-name=nextjs-with-supabase&demo-title=nextjs-with-supabase&demo-description=This+starter+configures+Supabase+Auth+to+use+cookies%2C+making+the+user%27s+session+available+throughout+the+entire+Next.js+app+-+Client+Components%2C+Server+Components%2C+Route+Handlers%2C+Server+Actions+and+Middleware.&demo-url=https%3A%2F%2Fdemo-nextjs-with-supabase.vercel.app%2F&external-id=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-supabase&demo-image=https%3A%2F%2Fdemo-nextjs-with-supabase.vercel.app%2Fopengraph-image.png)
+## Tech Stack
 
-The above will also clone the Starter kit to your GitHub, you can clone that locally and develop locally.
+- **Framework**: Next.js 15 (App Router)
+- **Database**: Supabase (PostgreSQL)
+- **Auth**: Supabase Auth
+- **Styling**: Tailwind CSS + shadcn/ui
+- **Language**: TypeScript
+- **Package Manager**: pnpm
 
-If you wish to just develop locally and not deploy to Vercel, [follow the steps below](#clone-and-run-locally).
+---
 
-## Clone and run locally
+## Getting Started
 
-1. You'll first need a Supabase project which can be made [via the Supabase dashboard](https://database.new)
+### Prerequisites
 
-2. Create a Next.js app using the Supabase Starter template npx command
+- Node.js 18+ installed
+- pnpm installed (`npm install -g pnpm`)
+- A Supabase account ([supabase.com](https://supabase.com))
 
-   ```bash
-   npx create-next-app --example with-supabase with-supabase-app
-   ```
+### 1. Clone and Install
 
-   ```bash
-   yarn create next-app --example with-supabase with-supabase-app
-   ```
+```bash
+cd dorellos-app
+pnpm install
+```
 
-   ```bash
-   pnpm create next-app --example with-supabase with-supabase-app
-   ```
+### 2. Set Up Supabase
 
-3. Use `cd` to change into the app's directory
+1. Create a new project at [supabase.com](https://supabase.com)
+2. Go to **Project Settings > API**
+3. Copy your **Project URL** and **anon/public key**
 
-   ```bash
-   cd with-supabase-app
-   ```
+### 3. Configure Environment Variables
 
-4. Rename `.env.example` to `.env.local` and update the following:
+Create a `.env.local` file in the root:
 
-  ```env
-  NEXT_PUBLIC_SUPABASE_URL=[INSERT SUPABASE PROJECT URL]
-  NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=[INSERT SUPABASE PROJECT API PUBLISHABLE OR ANON KEY]
-  ```
-  > [!NOTE]
-  > This example uses `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, which refers to Supabase's new **publishable** key format.
-  > Both legacy **anon** keys and new **publishable** keys can be used with this variable name during the transition period. Supabase's dashboard may show `NEXT_PUBLIC_SUPABASE_ANON_KEY`; its value can be used in this example.
-  > See the [full announcement](https://github.com/orgs/supabase/discussions/29260) for more information.
+```bash
+cp .env.example .env.local
+```
 
-  Both `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` can be found in [your Supabase project's API settings](https://supabase.com/dashboard/project/_?showConnect=true)
+Edit `.env.local` and add your Supabase credentials:
 
-5. You can now run the Next.js local development server:
+```env
+NEXT_PUBLIC_SUPABASE_URL=your-project-url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+```
 
-   ```bash
-   npm run dev
-   ```
+### 4. Run Database Migrations
 
-   The starter kit should now be running on [localhost:3000](http://localhost:3000/).
+In your Supabase project dashboard:
 
-6. This template comes with the default shadcn/ui style initialized. If you instead want other ui.shadcn styles, delete `components.json` and [re-install shadcn/ui](https://ui.shadcn.com/docs/installation/next)
+1. Go to **SQL Editor**
+2. Click **New Query**
+3. Copy the contents of `supabase/migrations/20250122000000_initial_schema.sql`
+4. Paste and run the migration
 
-> Check out [the docs for Local Development](https://supabase.com/docs/guides/getting-started/local-development) to also run Supabase locally.
+This creates all tables, indexes, RLS policies, and triggers.
 
-## Feedback and issues
+### 5. Start the Development Server
 
-Please file feedback and issues over on the [Supabase GitHub org](https://github.com/supabase/supabase/issues/new/choose).
+```bash
+pnpm dev
+```
 
-## More Supabase examples
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-- [Next.js Subscription Payments Starter](https://github.com/vercel/nextjs-subscription-payments)
-- [Cookie-based Auth and the Next.js 13 App Router (free course)](https://youtube.com/playlist?list=PL5S4mPUpp4OtMhpnp93EFSo42iQ40XjbF)
-- [Supabase Auth and the Next.js App Router](https://github.com/supabase/supabase/tree/master/examples/auth/nextjs)
+### 6. Sign Up
+
+1. Click **Get Started** on the landing page
+2. Create an account with email/password
+3. Check your email for the confirmation link
+4. Log in and start using the app!
+
+---
+
+## Usage Guide
+
+### First Time Setup
+
+1. **Create your first Work Unit**
+   - Click "New Work Unit"
+   - Add a title, outcome, and done-when criteria
+   - Add checklist items to break it down
+
+2. **Set Today's Work Unit**
+   - From the Work Units list, click the menu (•••)
+   - Select "Set as Today's Unit"
+
+3. **Add Your Daily 3 Nails**
+   - On the Today screen, add 1-3 commitments for the day
+   - Keep them specific and actionable
+
+4. **End Your Day**
+   - Click "Close Day" when you're done
+   - Fill out the checkpoint form
+   - This updates your checkpoint streak!
+
+### Daily Flow
+
+**Morning:**
+- Open the Today screen
+- Review or change your Work Unit
+- Set your 3 Nails for the day
+
+**During the Day:**
+- Use the Today screen as your command center
+- Check off Nails and checklist items as you complete them
+
+**Evening:**
+- Click "Close Day"
+- Reflect on what you completed
+- Note where you stopped and what's next
+- Capture any blockers
+
+---
+
+## Project Structure
+
+```
+dorellos-app/
+├── app/
+│   ├── (app)/                    # Main app routes (authenticated)
+│   │   ├── today/                # Today screen
+│   │   ├── work-units/           # Work Units CRUD
+│   │   ├── checkpoint/           # End-of-day checkpoint
+│   │   └── layout.tsx            # App navigation layout
+│   ├── actions/                  # Server actions
+│   │   ├── work-units.ts         # Work Unit mutations
+│   │   ├── days.ts               # Daily Nails mutations
+│   │   └── checkpoints.ts        # Checkpoint mutations
+│   ├── auth/                     # Auth pages (login, signup, etc.)
+│   └── layout.tsx                # Root layout
+├── components/                   # React components
+│   ├── ui/                       # shadcn/ui components
+│   ├── work-unit-card.tsx
+│   ├── daily-nails-list.tsx
+│   ├── streak-badge.tsx
+│   ├── checklist-items.tsx
+│   └── markdown-display.tsx
+├── lib/
+│   ├── db/                       # Data access layer
+│   │   ├── work-units.ts
+│   │   ├── days.ts
+│   │   ├── checkpoints.ts
+│   │   └── streaks.ts
+│   ├── types/                    # TypeScript types
+│   │   └── database.ts
+│   └── supabase/                 # Supabase clients
+│       ├── client.ts             # Browser client
+│       └── server.ts             # Server client
+└── supabase/
+    └── migrations/               # SQL migrations
+        └── 20250122000000_initial_schema.sql
+```
+
+---
+
+## Database Schema
+
+### Tables
+
+**work_units**
+- Stores Work Units with title, outcome, done_when, status
+- Tracks creation, update, and completion timestamps
+
+**checklist_items**
+- Items within a Work Unit
+- Position-ordered, with is_done flag
+
+**days**
+- One record per calendar day per user
+- Links to selected Work Unit
+
+**daily_nails**
+- The 3 Nails for a specific day
+- Position-ordered, with is_done flag
+
+**checkpoints**
+- End-of-day reflections
+- One per day, with completion summary, next step, blockers, mood
+
+### Row Level Security (RLS)
+
+All tables have RLS enabled with policies ensuring users can only access their own data. Auth is handled via Supabase's `auth.uid()` function.
+
+---
+
+## Key Features
+
+### Markdown Support
+- Work Unit outcome and done_when fields support markdown
+- Rendered with `react-markdown` and GitHub-flavored markdown
+
+### Server Actions
+- All mutations use Next.js 15 Server Actions
+- Automatic revalidation of affected pages
+
+### Responsive Design
+- Mobile-friendly interface
+- Dark mode support (via next-themes)
+
+### Minimal Complexity
+- No ORM (uses Supabase SDK directly)
+- No projects, labels, or tags
+- No team features
+- Single-user focused
+
+---
+
+## Deployment
+
+### Vercel (Recommended)
+
+1. Push your code to GitHub
+2. Import to Vercel
+3. Add environment variables in Vercel dashboard:
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+4. Deploy!
+
+### Other Platforms
+
+Works on any platform that supports Next.js 15:
+- Netlify
+- Railway
+- Fly.io
+- Self-hosted with Docker
+
+---
+
+## Customization
+
+### Adding Prose Styling for Markdown
+
+Install Tailwind Typography:
+
+```bash
+pnpm add @tailwindcss/typography
+```
+
+Add to `tailwind.config.ts`:
+
+```ts
+plugins: [require("@tailwindcss/typography")],
+```
+
+The markdown display component already uses `.prose` classes.
+
+### Changing Streak Calculation
+
+Edit `lib/db/streaks.ts` to customize how streaks are calculated (e.g., change from monthly to weekly).
+
+---
+
+## Troubleshooting
+
+### "User not authenticated" errors
+- Make sure you're logged in
+- Check that Supabase environment variables are correct
+- Verify RLS policies are applied (run the migration)
+
+### Database connection issues
+- Verify `.env.local` has correct Supabase credentials
+- Check Supabase project is active
+- Ensure database migration ran successfully
+
+### TypeScript errors
+- Run `pnpm install` to ensure all deps are installed
+- Check that `lib/types/database.ts` matches your schema
+
+---
+
+## Philosophy
+
+This app is intentionally minimal. It's designed around specific behavioral principles:
+
+1. **Closure over completion**: You can feel good about your day even if big tasks aren't done
+2. **Presence over perfection**: Showing up counts, missing a day doesn't reset your progress
+3. **Focus over volume**: 3 Nails, not 30 tasks
+4. **Context over memory**: Checkpoints capture where you stopped so you can resume easily
+
+**It's not trying to be everything. It's trying to be enough.**
+
+---
+
+## License
+
+MIT
+
+---
+
+## Support
+
+For issues or questions, please open an issue on GitHub.
