@@ -44,22 +44,22 @@ export default async function Home() {
 
           <Card>
             <CardHeader>
-              <CardTitle>Daily 3 Nails</CardTitle>
+              <CardTitle>Daily Intent & Horizons</CardTitle>
             </CardHeader>
             <CardContent>
               <CardDescription>
-                Commit to just 3 things each day. Small focus, big impact.
+                Set your daily focus and long-term direction. Stay aligned with what matters.
               </CardDescription>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader>
-              <CardTitle>Builder Streaks</CardTitle>
+              <CardTitle>Weekly Momentum</CardTitle>
             </CardHeader>
             <CardContent>
               <CardDescription>
-                Track monthly progress. Missing a day doesn't break your streak.
+                Track your progress at a glance. Missing a day doesn't break your streak.
               </CardDescription>
             </CardContent>
           </Card>
