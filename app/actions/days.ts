@@ -1,14 +1,9 @@
 "use server";
 
-// Server actions for Days and Daily Nails
+// Server actions for Days
 import { revalidatePath } from "next/cache";
-import {
-  setTodayWorkUnit as dbSetTodayWorkUnit,
-  setDailyNails as dbSetDailyNails,
-  toggleDailyNail as dbToggleDailyNail,
-  addDailyNail as dbAddDailyNail,
-  deleteDailyNail as dbDeleteDailyNail,
-} from "@/lib/db/days";
+import { setTodayWorkUnit as dbSetTodayWorkUnit } from "@/lib/db/days";
+import { createClient } from "@/lib/supabase/server";
 
 export async function setTodayWorkUnit(workUnitId: string) {
   try {
@@ -24,61 +19,26 @@ export async function setTodayWorkUnit(workUnitId: string) {
   }
 }
 
-export async function setDailyNails(
-  dayId: string,
-  nails: Array<{ label: string; work_unit_id?: string | null }>
-) {
+export async function saveDailyIntent(dayId: string, intent: string) {
   try {
-    const updatedNails = await dbSetDailyNails(dayId, nails);
+    const supabase = await createClient();
 
-    revalidatePath("/today");
+    const { error } = await supabase
+      .from('days')
+      .update({ daily_intent: intent })
+      .eq('id', dayId);
 
-    return { success: true, nails: updatedNails };
-  } catch (error) {
-    console.error("Error setting daily nails:", error);
-    return { error: "Failed to set daily nails" };
-  }
-}
+    if (error) {
+      console.error("Error saving daily intent:", error);
+      throw error;
+    }
 
-export async function toggleDailyNail(nailId: string, isDone: boolean) {
-  try {
-    await dbToggleDailyNail(nailId, isDone);
-
-    revalidatePath("/today");
+    // Don't revalidate to prevent losing focus while typing
+    // revalidatePath("/today");
 
     return { success: true };
   } catch (error) {
-    console.error("Error toggling daily nail:", error);
-    return { error: "Failed to toggle daily nail" };
-  }
-}
-
-export async function addDailyNail(
-  dayId: string,
-  label: string,
-  workUnitId?: string | null
-) {
-  try {
-    const nail = await dbAddDailyNail(dayId, label, workUnitId);
-
-    revalidatePath("/today");
-
-    return { success: true, nail };
-  } catch (error) {
-    console.error("Error adding daily nail:", error);
-    return { error: "Failed to add daily nail" };
-  }
-}
-
-export async function deleteDailyNail(nailId: string) {
-  try {
-    await dbDeleteDailyNail(nailId);
-
-    revalidatePath("/today");
-
-    return { success: true };
-  } catch (error) {
-    console.error("Error deleting daily nail:", error);
-    return { error: "Failed to delete daily nail" };
+    console.error("Error saving daily intent:", error);
+    return { error: "Failed to save daily intent" };
   }
 }

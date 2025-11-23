@@ -76,6 +76,7 @@ export type Database = {
           user_id: string;
           date: string;
           selected_work_unit_id: string | null;
+          daily_intent: string | null;
           created_at: string;
           updated_at: string;
         };
@@ -84,6 +85,7 @@ export type Database = {
           user_id: string;
           date: string;
           selected_work_unit_id?: string | null;
+          daily_intent?: string | null;
           created_at?: string;
           updated_at?: string;
         };
@@ -92,37 +94,9 @@ export type Database = {
           user_id?: string;
           date?: string;
           selected_work_unit_id?: string | null;
+          daily_intent?: string | null;
           created_at?: string;
           updated_at?: string;
-        };
-      };
-      daily_nails: {
-        Row: {
-          id: string;
-          day_id: string;
-          label: string;
-          work_unit_id: string | null;
-          is_done: boolean;
-          position: number;
-          created_at: string;
-        };
-        Insert: {
-          id?: string;
-          day_id: string;
-          label: string;
-          work_unit_id?: string | null;
-          is_done?: boolean;
-          position?: number;
-          created_at?: string;
-        };
-        Update: {
-          id?: string;
-          day_id?: string;
-          label?: string;
-          work_unit_id?: string | null;
-          is_done?: boolean;
-          position?: number;
-          created_at?: string;
         };
       };
       checkpoints: {
@@ -168,7 +142,6 @@ export type Database = {
 export type WorkUnit = Database['public']['Tables']['work_units']['Row'];
 export type ChecklistItem = Database['public']['Tables']['checklist_items']['Row'];
 export type Day = Database['public']['Tables']['days']['Row'];
-export type DailyNail = Database['public']['Tables']['daily_nails']['Row'];
 export type Checkpoint = Database['public']['Tables']['checkpoints']['Row'];
 
 // Composite types with relationships
@@ -177,7 +150,6 @@ export type WorkUnitWithChecklist = WorkUnit & {
 };
 
 export type DayWithDetails = Day & {
-  daily_nails: DailyNail[];
   work_unit: WorkUnit | null;
   checkpoint: Checkpoint | null;
 };
@@ -186,4 +158,12 @@ export type StreakData = {
   presenceStreak: number; // Days this month with a selected work unit
   checkpointStreak: number; // Days this month with a checkpoint
   currentMonth: string; // YYYY-MM format
+};
+
+export type MomentumDay = {
+  date: string; // YYYY-MM-DD
+  dayOfWeek: string; // 'Mon', 'Tue', etc.
+  hasActivity: boolean; // Had a checkpoint or selected work unit
+  hasCheckpoint: boolean; // Day was formally closed
+  mood?: string; // From checkpoint
 };

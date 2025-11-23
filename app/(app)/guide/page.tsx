@@ -20,9 +20,9 @@ export default async function GuidePage() {
     <div className="max-w-4xl mx-auto p-6 space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-4xl font-bold mb-2">How to Use Daily Execution OS</h1>
+        <h1 className="text-4xl font-bold mb-2">Daily Execution OS Guide</h1>
         <p className="text-lg text-muted-foreground">
-          A quick guide to help you make the most of your productivity system
+          A minimal, focused productivity system for building consistently
         </p>
       </div>
 
@@ -62,47 +62,67 @@ export default async function GuidePage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>2. Daily Three ("3 Nails")</CardTitle>
+            <CardTitle>2. Daily Intent</CardTitle>
             <CardDescription>
-              Your 3 commitments for today
+              Set your focus for the day
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
             <p>
-              Each day, commit to <strong>just 3 things</strong> you want to accomplish.
-              These are your "nails"—the things you're driving into today.
+              Each morning, write a <strong>free-form intention</strong> for your day.
+              This helps you clarify what you want to accomplish without rigid structure.
             </p>
             <div className="bg-muted p-4 rounded-md mt-3">
-              <p className="font-medium mb-2">Best Practices:</p>
+              <p className="font-medium mb-2">How to use it:</p>
               <ul className="list-disc list-inside space-y-1 text-sm">
-                <li>Make them <strong>specific and actionable</strong></li>
-                <li>Choose things you can <strong>complete today</strong></li>
-                <li>Mix of work from your Work Unit and other tasks</li>
-                <li>Don't stress if you don't finish all 3—progress counts!</li>
+                <li>Click the Daily Intent section to edit</li>
+                <li>Write naturally about what you want to focus on</li>
+                <li>Auto-saves as you type</li>
+                <li>Click outside to hide and view as text</li>
               </ul>
             </div>
-            <div className="bg-green-50 dark:bg-green-950 p-3 rounded-md mt-3 text-sm">
-              <p className="font-medium text-green-900 dark:text-green-100 mb-1">✅ Good Examples:</p>
-              <ul className="list-disc list-inside text-green-800 dark:text-green-200">
-                <li>"Write introduction section for docs"</li>
-                <li>"Fix auth bug in login flow"</li>
-                <li>"Call Sarah about Q1 budget"</li>
-              </ul>
-            </div>
-            <div className="bg-red-50 dark:bg-red-950 p-3 rounded-md mt-2 text-sm">
-              <p className="font-medium text-red-900 dark:text-red-100 mb-1">❌ Avoid:</p>
-              <ul className="list-disc list-inside text-red-800 dark:text-red-200">
-                <li>"Work on project" (too vague)</li>
-                <li>"Finish entire refactor" (too big)</li>
-                <li>"Think about strategy" (not actionable)</li>
-              </ul>
+            <div className="bg-blue-50 dark:bg-blue-950 p-3 rounded-md mt-3 text-sm">
+              <p className="font-medium text-blue-900 dark:text-blue-100 mb-1">Example:</p>
+              <p className="text-blue-800 dark:text-blue-200 italic">
+                "Today I want to push the Payments PR forward until I finish the migrations,
+                review Evan's comments, and prepare for final testing."
+              </p>
             </div>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle>3. Daily Checkpoints</CardTitle>
+            <CardTitle>3. Weekly Momentum & Streaks</CardTitle>
+            <CardDescription>
+              Track your progress without guilt
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <p>
+              See your week at a glance with a simple bar chart showing which days you had activity.
+              Monthly streaks track consistency without pressure.
+            </p>
+            <div className="bg-muted p-4 rounded-md mt-3">
+              <p className="font-medium mb-2">What you'll see:</p>
+              <ul className="list-disc list-inside space-y-1 text-sm">
+                <li><strong>Weekly Momentum</strong>: Bar chart of this week's activity</li>
+                <li><strong>Presence</strong>: Days this month with an active Work Unit</li>
+                <li><strong>Checkpoint</strong>: Days this month you closed with reflection</li>
+              </ul>
+            </div>
+            <div className="bg-blue-50 dark:bg-blue-950 p-3 rounded-md mt-3 text-sm">
+              <p className="text-blue-900 dark:text-blue-100">
+                <strong>No guilt design:</strong> Empty days show as subtle gray. No red, no "missed days" language.
+                Just observation of momentum—not judgment.
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>4. Daily Checkpoints</CardTitle>
             <CardDescription>
               End-of-day reflection for closure
             </CardDescription>
@@ -127,40 +147,6 @@ export default async function GuidePage() {
             </p>
           </CardContent>
         </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>4. Builder Streaks</CardTitle>
-            <CardDescription>
-              Track showing up, not perfection
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <p>
-              Two simple metrics that celebrate <strong>consistency over perfection</strong>:
-            </p>
-            <div className="grid md:grid-cols-2 gap-4 mt-3">
-              <div className="bg-muted p-4 rounded-md">
-                <p className="font-medium mb-1">🔥 Presence Streak</p>
-                <p className="text-sm text-muted-foreground">
-                  Days <strong>this month</strong> you engaged with a Work Unit
-                </p>
-              </div>
-              <div className="bg-muted p-4 rounded-md">
-                <p className="font-medium mb-1">✅ Checkpoint Streak</p>
-                <p className="text-sm text-muted-foreground">
-                  Days <strong>this month</strong> you submitted a checkpoint
-                </p>
-              </div>
-            </div>
-            <div className="bg-blue-50 dark:bg-blue-950 p-3 rounded-md mt-3 text-sm">
-              <p className="text-blue-900 dark:text-blue-100">
-                <strong>Important:</strong> These are <strong>monthly counts</strong>, not consecutive streaks.
-                Missing a day doesn't "break" anything—you just pick up where you left off!
-              </p>
-            </div>
-          </CardContent>
-        </Card>
       </section>
 
       {/* Daily Flow */}
@@ -175,8 +161,8 @@ export default async function GuidePage() {
             <CardContent className="text-sm space-y-2">
               <ol className="list-decimal list-inside space-y-1">
                 <li>Open the <strong>Today</strong> screen</li>
-                <li>Review or change your Work Unit</li>
-                <li>Set your 3 Nails for the day</li>
+                <li>Set your Daily Intent</li>
+                <li>Review or switch your Work Unit</li>
                 <li>Get to work!</li>
               </ol>
             </CardContent>
@@ -188,10 +174,10 @@ export default async function GuidePage() {
             </CardHeader>
             <CardContent className="text-sm space-y-2">
               <ol className="list-decimal list-inside space-y-1">
-                <li>Use Today screen as your command center</li>
-                <li>Check off Nails as you complete them</li>
-                <li>Update Work Unit checklist</li>
-                <li>Stay focused on your 3 priorities</li>
+                <li>Work on your checklist items</li>
+                <li>Add new items as you go</li>
+                <li>Check off completed items</li>
+                <li>Switch Work Units if needed (use Multi-view)</li>
               </ol>
             </CardContent>
           </Card>
@@ -202,7 +188,7 @@ export default async function GuidePage() {
             </CardHeader>
             <CardContent className="text-sm space-y-2">
               <ol className="list-decimal list-inside space-y-1">
-                <li>Click <strong>"Close Day"</strong></li>
+                <li>Click <strong>"Close Day"</strong> (top right)</li>
                 <li>Reflect on what you completed</li>
                 <li>Note where you stopped</li>
                 <li>Capture any blockers</li>
@@ -241,10 +227,10 @@ export default async function GuidePage() {
               <li className="flex gap-3">
                 <span className="flex-shrink-0 w-6 h-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-bold">3</span>
                 <div>
-                  <p className="font-medium">Add your Daily 3 Nails</p>
+                  <p className="font-medium">Write your Daily Intent</p>
                   <p className="text-sm text-muted-foreground">
                     On the <Link href="/today" className="underline">Today screen</Link>,
-                    add 1-3 specific commitments for the day.
+                    click the Daily Intent section and write what you want to focus on today.
                   </p>
                 </div>
               </li>
@@ -288,7 +274,7 @@ export default async function GuidePage() {
               <div className="bg-background/80 p-3 rounded-md">
                 <p className="font-medium text-sm">🎪 Focus over Volume</p>
                 <p className="text-xs text-muted-foreground mt-1">
-                  3 Nails, not 30 tasks
+                  One Work Unit at a time, not scattered across 30 tasks
                 </p>
               </div>
               <div className="bg-background/80 p-3 rounded-md">
@@ -312,32 +298,34 @@ export default async function GuidePage() {
         <div className="space-y-3">
           <Card>
             <CardHeader>
-              <CardTitle className="text-base">What if I finish all 3 nails early?</CardTitle>
+              <CardTitle className="text-base">How do I add checklist items?</CardTitle>
             </CardHeader>
             <CardContent className="text-sm">
-              Great! You can work on your Work Unit checklist, get ahead on planning tomorrow,
-              or take a well-deserved break. The 3-nail limit is intentional—focus beats volume.
+              Click the empty line at the bottom of your checklist (it says "Click to add item...").
+              Type your item and press Enter. To edit, click on the item. To delete, hover and click the × button
+              (hold Shift to skip confirmation).
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader>
-              <CardTitle className="text-base">What if I don't finish all 3 nails?</CardTitle>
+              <CardTitle className="text-base">What's the difference between Daily Intent and checklist?</CardTitle>
             </CardHeader>
             <CardContent className="text-sm">
-              That's completely okay! The checkpoint asks "What did you complete?" and "Where did you stop?"
-              You get closure either way. Progress, not perfection.
+              Daily Intent is your free-form focus for the day—what you want to accomplish overall.
+              Checklist items are the specific, actionable steps for your current Work Unit. Think of intent
+              as the "why" and checklist as the "how".
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader>
-              <CardTitle className="text-base">Can I have multiple active Work Units?</CardTitle>
+              <CardTitle className="text-base">Can I work on multiple Work Units at once?</CardTitle>
             </CardHeader>
             <CardContent className="text-sm">
-              Yes! You can have multiple Work Units in "Active" status. But you can only have
-              <strong> one selected for Today</strong>. This forces focus. If you need to context-switch,
-              just change today's Work Unit from the Work Units page.
+              Yes! You can have multiple Work Units in "Active" status. On the Today screen, click "Multi-view"
+              to see 2-3 Work Units side-by-side with their checklists. This lets you work on multiple projects
+              without losing focus. Click "Single view" to return to focusing on one unit.
             </CardContent>
           </Card>
 
@@ -391,11 +379,11 @@ export default async function GuidePage() {
 
           <Card>
             <CardHeader>
-              <CardTitle className="text-base">📋 Use Checklists</CardTitle>
+              <CardTitle className="text-base">📋 Break It Down</CardTitle>
             </CardHeader>
             <CardContent className="text-sm">
               Break down your Work Unit into smaller checklist items. These help you see progress
-              and give you concrete tasks to pull into your Daily 3 Nails.
+              and keep you moving forward. Click to edit, Shift+click × to delete quickly.
             </CardContent>
           </Card>
 
