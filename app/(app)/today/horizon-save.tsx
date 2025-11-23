@@ -1,7 +1,7 @@
 "use client";
 
 import { HorizonBlock } from "@/components/horizon-block";
-import { saveHorizon } from "@/app/actions/horizons";
+import { useUpdateHorizon } from "@/lib/hooks/use-today";
 
 interface TodayHorizonSaveProps {
   dayId: string;
@@ -14,8 +14,14 @@ interface TodayHorizonSaveProps {
 }
 
 export function TodayHorizonSave({ dayId, horizons }: TodayHorizonSaveProps) {
+  const updateHorizon = useUpdateHorizon();
+
   const handleSave = async (horizonType: string, content: string) => {
-    await saveHorizon(dayId, horizonType, content);
+    updateHorizon.mutate({
+      dayId,
+      horizonType: horizonType as "weekly" | "monthly" | "yearly" | "direction",
+      content,
+    });
   };
 
   return <HorizonBlock dayId={dayId} horizons={horizons} onSave={handleSave} />;

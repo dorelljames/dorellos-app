@@ -1,7 +1,7 @@
 "use client";
 
 import { DailyIntent } from "@/components/daily-intent";
-import { saveDailyIntent } from "@/app/actions/days";
+import { useUpdateDailyIntent } from "@/lib/hooks/use-today";
 
 interface TodayIntentSaveProps {
   dayId: string;
@@ -9,8 +9,10 @@ interface TodayIntentSaveProps {
 }
 
 export function TodayIntentSave({ dayId, initialIntent }: TodayIntentSaveProps) {
+  const updateIntent = useUpdateDailyIntent();
+
   const handleSave = async (intent: string) => {
-    await saveDailyIntent(dayId, intent);
+    updateIntent.mutate({ dayId, intent });
   };
 
   return <DailyIntent dayId={dayId} initialIntent={initialIntent} onSave={handleSave} />;

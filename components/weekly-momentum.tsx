@@ -1,4 +1,6 @@
-import { getWeeklyMomentum } from "@/lib/db/momentum";
+"use client";
+
+import { useWeeklyMomentum } from "@/lib/hooks/use-today";
 import { WeeklyMomentumView } from "./weekly-momentum-view";
 import { MomentumDay } from "@/lib/types/database";
 
@@ -26,10 +28,16 @@ function calculateMomentumTrend(days: MomentumDay[]): 'gaining' | 'stable' | 'de
   }
 }
 
-export async function WeeklyMomentum() {
-  const days = await getWeeklyMomentum();
-  const trend = calculateMomentumTrend(days);
+export function WeeklyMomentum() {
+  const { data: days = [], isLoading } = useWeeklyMomentum();
 
+  if (isLoading) {
+    return (
+      <div className="animate-pulse h-24 bg-muted rounded-lg" />
+    );
+  }
+
+  const trend = calculateMomentumTrend(days);
   const activeDays = days.filter(d => d.hasActivity).length;
   const closedDays = days.filter(d => d.hasCheckpoint).length;
 

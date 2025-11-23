@@ -1,8 +1,7 @@
 "use client";
 
-import { useTransition } from "react";
 import Link from "next/link";
-import { setTodayWorkUnit } from "@/app/actions/days";
+import { useSetTodayWorkUnit } from "@/lib/hooks/use-today";
 import type { WorkUnit } from "@/lib/types/database";
 
 interface WorkUnitSwitcherProps {
@@ -11,12 +10,11 @@ interface WorkUnitSwitcherProps {
 }
 
 export function WorkUnitSwitcher({ workUnits, currentWorkUnitId }: WorkUnitSwitcherProps) {
-  const [isPending, startTransition] = useTransition();
+  const setWorkUnit = useSetTodayWorkUnit();
 
   const handleSwitch = (workUnitId: string) => {
-    startTransition(async () => {
-      await setTodayWorkUnit(workUnitId);
-    });
+    // TanStack Query will automatically update the UI via cache invalidation
+    setWorkUnit.mutate(workUnitId);
   };
 
   return (
@@ -27,7 +25,7 @@ export function WorkUnitSwitcher({ workUnits, currentWorkUnitId }: WorkUnitSwitc
           <button
             key={wu.id}
             onClick={() => handleSwitch(wu.id)}
-            disabled={isPending}
+            disabled={setWorkUnit.isPending}
             className={`
               flex-shrink-0 px-4 py-3 rounded-lg border-2 transition-all min-w-[140px]
               ${isActive

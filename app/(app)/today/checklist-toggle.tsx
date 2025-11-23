@@ -4,7 +4,8 @@ import { useState, useTransition } from "react";
 import { ChecklistItems } from "@/components/checklist-items";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { toggleChecklistItem, addChecklistItem, updateChecklistItem, deleteChecklistItem } from "@/app/actions/work-units";
+import { useToggleChecklistItem } from "@/lib/hooks/use-work-units";
+import { addChecklistItem, updateChecklistItem, deleteChecklistItem } from "@/app/actions/work-units";
 import type { ChecklistItem } from "@/lib/types/database";
 
 interface TodayChecklistToggleProps {
@@ -15,11 +16,10 @@ export function TodayChecklistToggle({ items }: TodayChecklistToggleProps) {
   const [isPending, startTransition] = useTransition();
   const [newItemLabel, setNewItemLabel] = useState("");
   const [isAdding, setIsAdding] = useState(false);
+  const toggleMutation = useToggleChecklistItem();
 
   const handleToggle = (itemId: string, isDone: boolean) => {
-    startTransition(async () => {
-      await toggleChecklistItem(itemId, isDone);
-    });
+    toggleMutation.mutate({ itemId, isDone });
   };
 
   const handleEdit = (itemId: string, newLabel: string) => {

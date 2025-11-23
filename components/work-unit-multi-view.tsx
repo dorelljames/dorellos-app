@@ -4,7 +4,8 @@ import { useState } from "react";
 import { WorkUnitSwitcher } from "./work-unit-switcher";
 import { WorkUnit, WorkUnitWithChecklist } from "@/lib/types/database";
 import { ChecklistItems } from "./checklist-items";
-import { toggleChecklistItem, updateChecklistItem, deleteChecklistItem } from "@/app/actions/work-units";
+import { useToggleChecklistItem } from "@/lib/hooks/use-work-units";
+import { updateChecklistItem, deleteChecklistItem } from "@/app/actions/work-units";
 import { useTransition } from "react";
 
 interface WorkUnitMultiViewProps {
@@ -16,11 +17,10 @@ interface WorkUnitMultiViewProps {
 export function WorkUnitMultiView({ workUnits, currentWorkUnitId, workUnitsWithChecklists }: WorkUnitMultiViewProps) {
   const [viewMode, setViewMode] = useState<'single' | 'multi'>('single');
   const [isPending, startTransition] = useTransition();
+  const toggleMutation = useToggleChecklistItem();
 
   const handleToggle = (itemId: string, isDone: boolean) => {
-    startTransition(async () => {
-      await toggleChecklistItem(itemId, isDone);
-    });
+    toggleMutation.mutate({ itemId, isDone });
   };
 
   const handleEdit = (itemId: string, newLabel: string) => {
@@ -45,8 +45,8 @@ export function WorkUnitMultiView({ workUnits, currentWorkUnitId, workUnitsWithC
   if (viewMode === 'single') {
     return (
       <div>
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex-1">
+        <div className="flex items-center justify-between gap-4 mb-4">
+          <div className="flex-1 min-w-0">
             <WorkUnitSwitcher
               workUnits={workUnits}
               currentWorkUnitId={currentWorkUnitId}
@@ -54,7 +54,7 @@ export function WorkUnitMultiView({ workUnits, currentWorkUnitId, workUnitsWithC
           </div>
           <button
             onClick={() => setViewMode('multi')}
-            className="text-xs text-muted-foreground/60 hover:text-foreground transition-colors ml-4"
+            className="text-xs text-muted-foreground/60 hover:text-foreground transition-colors flex-shrink-0 whitespace-nowrap"
           >
             Multi-view
           </button>
