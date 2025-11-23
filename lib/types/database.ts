@@ -77,6 +77,10 @@ export type Database = {
           date: string;
           selected_work_unit_id: string | null;
           daily_intent: string | null;
+          weekly_horizon: string | null;
+          monthly_horizon: string | null;
+          yearly_horizon: string | null;
+          direction_horizon: string | null;
           created_at: string;
           updated_at: string;
         };
@@ -86,6 +90,10 @@ export type Database = {
           date: string;
           selected_work_unit_id?: string | null;
           daily_intent?: string | null;
+          weekly_horizon?: string | null;
+          monthly_horizon?: string | null;
+          yearly_horizon?: string | null;
+          direction_horizon?: string | null;
           created_at?: string;
           updated_at?: string;
         };
@@ -95,6 +103,10 @@ export type Database = {
           date?: string;
           selected_work_unit_id?: string | null;
           daily_intent?: string | null;
+          weekly_horizon?: string | null;
+          monthly_horizon?: string | null;
+          yearly_horizon?: string | null;
+          direction_horizon?: string | null;
           created_at?: string;
           updated_at?: string;
         };

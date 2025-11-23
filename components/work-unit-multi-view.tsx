@@ -2,19 +2,13 @@
 
 import { useState } from "react";
 import { WorkUnitSwitcher } from "./work-unit-switcher";
-import { WorkUnitWithChecklist } from "@/lib/types/database";
+import { WorkUnit, WorkUnitWithChecklist } from "@/lib/types/database";
 import { ChecklistItems } from "./checklist-items";
 import { toggleChecklistItem, updateChecklistItem, deleteChecklistItem } from "@/app/actions/work-units";
 import { useTransition } from "react";
 
 interface WorkUnitMultiViewProps {
-  workUnits: Array<{
-    id: string;
-    title: string;
-    status: string;
-    totalCount: number;
-    completedCount: number;
-  }>;
+  workUnits: Array<WorkUnit & { completedCount: number; totalCount: number }>;
   currentWorkUnitId: string | null;
   workUnitsWithChecklists: WorkUnitWithChecklist[];
 }
@@ -37,7 +31,14 @@ export function WorkUnitMultiView({ workUnits, currentWorkUnitId, workUnitsWithC
 
   const handleDelete = (itemId: string) => {
     startTransition(async () => {
-      await deleteChecklistItem(itemId);
+      // Find the item across all work units to get the work_unit_id
+      for (const unit of workUnitsWithChecklists) {
+        const item = unit.checklist_items.find(i => i.id === itemId);
+        if (item) {
+          await deleteChecklistItem(itemId, item.work_unit_id);
+          break;
+        }
+      }
     });
   };
 

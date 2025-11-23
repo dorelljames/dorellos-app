@@ -13,6 +13,7 @@ import { CheckpointSummary } from "@/components/checkpoint-summary";
 import { Button } from "@/components/ui/button";
 import { TodayChecklistToggle } from "./checklist-toggle";
 import { TodayIntentSave } from "./intent-save";
+import { TodayHorizonSave } from "./horizon-save";
 
 export default async function TodayPage() {
   const supabase = await createClient();
@@ -101,6 +102,21 @@ export default async function TodayPage() {
       {todayData && (
         <div className="mb-12">
           <TodayIntentSave dayId={todayData.id} initialIntent={todayData.daily_intent} />
+        </div>
+      )}
+
+      {/* Horizon Block */}
+      {todayData && (
+        <div className="mb-12">
+          <TodayHorizonSave
+            dayId={todayData.id}
+            horizons={{
+              weekly: todayData.weekly_horizon,
+              monthly: todayData.monthly_horizon,
+              yearly: todayData.yearly_horizon,
+              direction: todayData.direction_horizon,
+            }}
+          />
         </div>
       )}
 

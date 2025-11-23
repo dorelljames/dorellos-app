@@ -1,6 +1,6 @@
-// Data access layer for Days and Daily Nails
+// Data access layer for Days
 import { createClient } from "@/lib/supabase/server";
-import type { Day, DayWithDetails, DailyNail } from "@/lib/types/database";
+import type { Day, DayWithDetails } from "@/lib/types/database";
 
 /**
  * Get or create today's day record
@@ -161,124 +161,6 @@ export async function getDayByDate(date: string): Promise<Day | null> {
 }
 
 // =====================================================
-// DAILY NAILS
+// LEGACY: Daily Nails feature was removed and replaced with Daily Intent
+// These functions are no longer used
 // =====================================================
-
-/**
- * Set daily nails for a day (replaces existing)
- */
-export async function setDailyNails(
-  dayId: string,
-  nails: Array<{ label: string; work_unit_id?: string | null }>
-): Promise<DailyNail[]> {
-  const supabase = await createClient();
-
-  // Delete existing nails
-  await supabase
-    .from('daily_nails')
-    .delete()
-    .eq('day_id', dayId);
-
-  // Insert new nails
-  const nailsToInsert = nails.map((nail, index) => ({
-    day_id: dayId,
-    label: nail.label,
-    work_unit_id: nail.work_unit_id || null,
-    position: index,
-    is_done: false,
-  }));
-
-  const { data, error } = await supabase
-    .from('daily_nails')
-    .insert(nailsToInsert)
-    .select();
-
-  if (error) {
-    console.error('Error setting daily nails:', error);
-    throw error;
-  }
-
-  return data || [];
-}
-
-/**
- * Toggle daily nail done status
- */
-export async function toggleDailyNail(
-  nailId: string,
-  isDone: boolean
-): Promise<DailyNail> {
-  const supabase = await createClient();
-
-  const { data, error } = await supabase
-    .from('daily_nails')
-    .update({ is_done: isDone })
-    .eq('id', nailId)
-    .select()
-    .single();
-
-  if (error) {
-    console.error('Error toggling daily nail:', error);
-    throw error;
-  }
-
-  return data;
-}
-
-/**
- * Add a single daily nail
- */
-export async function addDailyNail(
-  dayId: string,
-  label: string,
-  workUnitId?: string | null
-): Promise<DailyNail> {
-  const supabase = await createClient();
-
-  // Get current max position
-  const { data: existingNails } = await supabase
-    .from('daily_nails')
-    .select('position')
-    .eq('day_id', dayId)
-    .order('position', { ascending: false })
-    .limit(1);
-
-  const position = existingNails && existingNails.length > 0
-    ? existingNails[0].position + 1
-    : 0;
-
-  const { data, error } = await supabase
-    .from('daily_nails')
-    .insert({
-      day_id: dayId,
-      label,
-      work_unit_id: workUnitId || null,
-      position,
-    })
-    .select()
-    .single();
-
-  if (error) {
-    console.error('Error adding daily nail:', error);
-    throw error;
-  }
-
-  return data;
-}
-
-/**
- * Delete a daily nail
- */
-export async function deleteDailyNail(nailId: string): Promise<void> {
-  const supabase = await createClient();
-
-  const { error } = await supabase
-    .from('daily_nails')
-    .delete()
-    .eq('id', nailId);
-
-  if (error) {
-    console.error('Error deleting daily nail:', error);
-    throw error;
-  }
-}

@@ -30,7 +30,10 @@ export function TodayChecklistToggle({ items }: TodayChecklistToggleProps) {
 
   const handleDelete = (itemId: string) => {
     startTransition(async () => {
-      await deleteChecklistItem(itemId);
+      const item = items.find(i => i.id === itemId);
+      if (item) {
+        await deleteChecklistItem(itemId, item.work_unit_id);
+      }
     });
   };
 
