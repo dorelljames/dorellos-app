@@ -17,20 +17,30 @@ A **Work Unit** is one coherent problem-space you're working on. It could span d
 - Checklist items
 - Status (active, parked, completed, archived)
 
-### 2. Daily Three ("3 Nails")
-Your daily commitment—**just 3 things** you're driving forward today. These can be tied to your active Work Unit or standalone tasks.
+### 2. Daily Intent
+A free-form intention for your day. Write naturally about what you want to focus on without rigid structure. Click to edit, auto-saves as you type.
 
-### 3. Daily Checkpoints
+### 3. Horizon Timeline
+Time-bound goal snapshots that provide directional context for daily work:
+- **This Week**: What you want to accomplish this week
+- **This Month**: Your focus for the month
+- **This Year**: What you're building toward this year
+- **2-3 Year Direction**: Where you're headed in the long term
+
+These horizons persist until you update them, creating a historical archive of your evolving goals.
+
+### 4. Daily Checkpoints
 End-of-day reflection that gives you **psychological closure** even when work is unfinished:
 - What did you complete?
 - Where did you stop? What's next?
 - Any blockers?
 - How are you feeling?
 
-### 4. Builder Streaks
-Two metrics that track **showing up**, not perfection:
-- **Presence Streak**: Days this month you engaged with a Work Unit
-- **Checkpoint Streak**: Days this month you submitted a checkpoint
+### 5. Weekly Momentum & Streaks
+Metrics that track **showing up**, not perfection:
+- **Weekly Momentum**: Bar chart showing this week's activity
+- **Presence**: Days this month you engaged with a Work Unit
+- **Checkpoint**: Days this month you submitted a checkpoint
 
 Missing a day doesn't break your streak—it's a monthly count, not a consecutive chain.
 
@@ -38,12 +48,12 @@ Missing a day doesn't break your streak—it's a monthly count, not a consecutiv
 
 ## Tech Stack
 
-- **Framework**: Next.js 15 (App Router)
+- **Framework**: Next.js 16 (App Router with Turbopack)
 - **Database**: Supabase (PostgreSQL)
 - **Auth**: Supabase Auth
 - **Styling**: Tailwind CSS + shadcn/ui
 - **Language**: TypeScript
-- **Package Manager**: pnpm
+- **Package Manager**: npm
 
 ---
 
@@ -52,14 +62,14 @@ Missing a day doesn't break your streak—it's a monthly count, not a consecutiv
 ### Prerequisites
 
 - Node.js 18+ installed
-- pnpm installed (`npm install -g pnpm`)
+- npm (comes with Node.js)
 - A Supabase account ([supabase.com](https://supabase.com))
 
 ### 1. Clone and Install
 
 ```bash
 cd dorellos-app
-pnpm install
+npm install
 ```
 
 ### 2. Set Up Supabase
@@ -89,15 +99,17 @@ In your Supabase project dashboard:
 
 1. Go to **SQL Editor**
 2. Click **New Query**
-3. Copy the contents of `supabase/migrations/20250122000000_initial_schema.sql`
-4. Paste and run the migration
+3. Run the migrations in order:
+   - `supabase/migrations/20250122000000_initial_schema.sql` (initial schema)
+   - `supabase/migrations/20250123000000_add_daily_intent.sql` (adds daily intent)
+   - `supabase/migrations/20250124000000_add_horizons.sql` (adds horizon timeline)
 
 This creates all tables, indexes, RLS policies, and triggers.
 
 ### 5. Start the Development Server
 
 ```bash
-pnpm dev
+npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
@@ -124,11 +136,16 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
    - From the Work Units list, click the menu (•••)
    - Select "Set as Today's Unit"
 
-3. **Add Your Daily 3 Nails**
-   - On the Today screen, add 1-3 commitments for the day
-   - Keep them specific and actionable
+3. **Write Your Daily Intent**
+   - On the Today screen, click the Daily Intent section
+   - Write what you want to focus on today
 
-4. **End Your Day**
+4. **Set Your Horizons (Optional)**
+   - Expand the "North Star / Horizon" section
+   - Fill in your weekly, monthly, yearly, and long-term direction
+   - These provide context for your daily work
+
+5. **End Your Day**
    - Click "Close Day" when you're done
    - Fill out the checkpoint form
    - This updates your checkpoint streak!
@@ -137,12 +154,14 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 **Morning:**
 - Open the Today screen
-- Review or change your Work Unit
-- Set your 3 Nails for the day
+- Set your Daily Intent
+- Review or switch your Work Unit
+- Check your horizons for context
 
 **During the Day:**
 - Use the Today screen as your command center
-- Check off Nails and checklist items as you complete them
+- Work on checklist items
+- Switch between multiple Work Units if needed (use Multi-view)
 
 **Evening:**
 - Click "Close Day"
@@ -161,17 +180,22 @@ dorellos-app/
 │   │   ├── today/                # Today screen
 │   │   ├── work-units/           # Work Units CRUD
 │   │   ├── checkpoint/           # End-of-day checkpoint
+│   │   ├── guide/                # User guide
 │   │   └── layout.tsx            # App navigation layout
 │   ├── actions/                  # Server actions
 │   │   ├── work-units.ts         # Work Unit mutations
-│   │   ├── days.ts               # Daily Nails mutations
+│   │   ├── days.ts               # Daily Intent mutations
+│   │   ├── horizons.ts           # Horizon Timeline mutations
 │   │   └── checkpoints.ts        # Checkpoint mutations
 │   ├── auth/                     # Auth pages (login, signup, etc.)
 │   └── layout.tsx                # Root layout
 ├── components/                   # React components
 │   ├── ui/                       # shadcn/ui components
 │   ├── work-unit-card.tsx
-│   ├── daily-nails-list.tsx
+│   ├── work-unit-multi-view.tsx
+│   ├── daily-intent.tsx
+│   ├── horizon-block.tsx
+│   ├── weekly-momentum.tsx
 │   ├── streak-badge.tsx
 │   ├── checklist-items.tsx
 │   └── markdown-display.tsx
@@ -179,8 +203,10 @@ dorellos-app/
 │   ├── db/                       # Data access layer
 │   │   ├── work-units.ts
 │   │   ├── days.ts
+│   │   ├── horizons.ts
 │   │   ├── checkpoints.ts
-│   │   └── streaks.ts
+│   │   ├── streaks.ts
+│   │   └── momentum.ts
 │   ├── types/                    # TypeScript types
 │   │   └── database.ts
 │   └── supabase/                 # Supabase clients
@@ -188,7 +214,9 @@ dorellos-app/
 │       └── server.ts             # Server client
 └── supabase/
     └── migrations/               # SQL migrations
-        └── 20250122000000_initial_schema.sql
+        ├── 20250122000000_initial_schema.sql
+        ├── 20250123000000_add_daily_intent.sql
+        └── 20250124000000_add_horizons.sql
 ```
 
 ---
@@ -208,10 +236,8 @@ dorellos-app/
 **days**
 - One record per calendar day per user
 - Links to selected Work Unit
-
-**daily_nails**
-- The 3 Nails for a specific day
-- Position-ordered, with is_done flag
+- Stores daily_intent (free-form text)
+- Stores horizon snapshots (weekly, monthly, yearly, direction)
 
 **checkpoints**
 - End-of-day reflections
@@ -230,12 +256,19 @@ All tables have RLS enabled with policies ensuring users can only access their o
 - Rendered with `react-markdown` and GitHub-flavored markdown
 
 ### Server Actions
-- All mutations use Next.js 15 Server Actions
+- All mutations use Next.js 16 Server Actions
 - Automatic revalidation of affected pages
+- Auto-save with debouncing for Daily Intent and Horizons
 
 ### Responsive Design
 - Mobile-friendly interface
 - Dark mode support (via next-themes)
+- Minimal, notebook-style UI
+
+### Multi-View Support
+- Work on multiple Work Units simultaneously
+- Toggle between single and multi-view modes
+- See 2-3 Work Units side-by-side with their checklists
 
 ### Minimal Complexity
 - No ORM (uses Supabase SDK directly)
@@ -258,7 +291,7 @@ All tables have RLS enabled with policies ensuring users can only access their o
 
 ### Other Platforms
 
-Works on any platform that supports Next.js 15:
+Works on any platform that supports Next.js 16:
 - Netlify
 - Railway
 - Fly.io
@@ -273,7 +306,7 @@ Works on any platform that supports Next.js 15:
 Install Tailwind Typography:
 
 ```bash
-pnpm add @tailwindcss/typography
+npm add @tailwindcss/typography
 ```
 
 Add to `tailwind.config.ts`:
@@ -303,7 +336,7 @@ Edit `lib/db/streaks.ts` to customize how streaks are calculated (e.g., change f
 - Ensure database migration ran successfully
 
 ### TypeScript errors
-- Run `pnpm install` to ensure all deps are installed
+- Run `npm install` to ensure all deps are installed
 - Check that `lib/types/database.ts` matches your schema
 
 ---
@@ -312,10 +345,11 @@ Edit `lib/db/streaks.ts` to customize how streaks are calculated (e.g., change f
 
 This app is intentionally minimal. It's designed around specific behavioral principles:
 
-1. **Closure over completion**: You can feel good about your day even if big tasks aren't done
-2. **Presence over perfection**: Showing up counts, missing a day doesn't reset your progress
-3. **Focus over volume**: 3 Nails, not 30 tasks
-4. **Context over memory**: Checkpoints capture where you stopped so you can resume easily
+1. **Closure over Completion**: You can feel good about your day even if big tasks aren't done
+2. **Presence over Perfection**: Showing up counts, missing a day doesn't reset your progress
+3. **Focus over Volume**: One Work Unit at a time, not scattered across 30 tasks
+4. **Context over Memory**: Checkpoints capture where you stopped so you can resume easily
+5. **Direction over Drift**: Horizons provide north star context to keep you aligned with long-term goals
 
 **It's not trying to be everything. It's trying to be enough.**
 
