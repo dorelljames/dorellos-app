@@ -1,15 +1,15 @@
 -- Daily Execution OS - Initial Schema Migration
 -- Single-user productivity app with Work Units, Daily Nails, and Checkpoints
 
--- Enable UUID extension
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+-- Enable UUID extension (pgcrypto for gen_random_uuid)
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
 -- =====================================================
 -- WORK UNITS TABLE
 -- =====================================================
 -- Represents a coherent problem-space the user is working on
 CREATE TABLE work_units (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
   title TEXT NOT NULL,
   outcome TEXT, -- Markdown supported
@@ -43,7 +43,7 @@ CREATE TRIGGER update_work_units_updated_at
 -- =====================================================
 -- Individual items within a Work Unit
 CREATE TABLE checklist_items (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   work_unit_id UUID NOT NULL REFERENCES work_units(id) ON DELETE CASCADE,
   label TEXT NOT NULL,
   position INTEGER NOT NULL DEFAULT 0,
@@ -66,7 +66,7 @@ CREATE TRIGGER update_checklist_items_updated_at
 -- =====================================================
 -- Represents a single calendar day and the Work Unit selected for that day
 CREATE TABLE days (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
   date DATE NOT NULL,
   selected_work_unit_id UUID REFERENCES work_units(id) ON DELETE SET NULL,
@@ -91,7 +91,7 @@ CREATE TRIGGER update_days_updated_at
 -- =====================================================
 -- The 3 things committed to for a specific day
 CREATE TABLE daily_nails (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   day_id UUID NOT NULL REFERENCES days(id) ON DELETE CASCADE,
   label TEXT NOT NULL,
   work_unit_id UUID REFERENCES work_units(id) ON DELETE SET NULL,
@@ -109,7 +109,7 @@ CREATE INDEX idx_daily_nails_position ON daily_nails(day_id, position);
 -- =====================================================
 -- End-of-day reflections
 CREATE TABLE checkpoints (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
   day_id UUID NOT NULL REFERENCES days(id) ON DELETE CASCADE,
   work_unit_id UUID REFERENCES work_units(id) ON DELETE SET NULL,
